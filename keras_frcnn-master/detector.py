@@ -72,7 +72,7 @@ class FasterRCNNDetector(object):
         self.model_rpn.compile(optimizer='sgd', loss='mse')
         self.model_classifier.compile(optimizer='sgd', loss='mse')
 
-    def detect_on_image(self, img):
+    def detect_on_image(self, img, newimgname):
         tic = time.time()
 
         X, ratio = format_img(img, self.cfg)
@@ -139,10 +139,10 @@ class FasterRCNNDetector(object):
         print('Elapsed time = {}'.format(time.time() - tic))
         cv2.imshow('image', img)
 
-        result_path = './results_images/{}.png'.format('result')
+        result_path = './results_images/{}'.format(newimgname)
         print('result saved into ', result_path)
         cv2.imwrite(result_path, img)
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
 
     def detect_on_video(self, v):
         pass
