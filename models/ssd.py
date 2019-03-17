@@ -23,7 +23,6 @@ from layers.ssd_layers import PriorBox
 
 
 def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
-
     net = {}
     # ============= Block 1 =============
     input_tensor = Input(shape=input_shape)
@@ -42,7 +41,7 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                                    name='conv1_2')(net['conv1_1'])
     net['pool1'] = MaxPooling2D((2, 2), strides=(2, 2), border_mode='same',
                                 name='pool1')(net['conv1_2'])
-								
+
     # ============= Block 2 =============
     net['conv2_1'] = Convolution2D(128, 3, 3,
                                    activation='relu',
@@ -54,7 +53,7 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                                    name='conv2_2')(net['conv2_1'])
     net['pool2'] = MaxPooling2D((2, 2), strides=(2, 2), border_mode='same',
                                 name='pool2')(net['conv2_2'])
-								
+
     # =============  Block 3 =============
     net['conv3_1'] = Convolution2D(256, 3, 3,
                                    activation='relu',
@@ -70,8 +69,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                                    name='conv3_3')(net['conv3_2'])
     net['pool3'] = MaxPooling2D((2, 2), strides=(2, 2), border_mode='same',
                                 name='pool3')(net['conv3_3'])
-   
-   # ============= Block 4 =============
+
+    # ============= Block 4 =============
     net['conv4_1'] = Convolution2D(512, 3, 3,
                                    activation='relu',
                                    border_mode='same',
@@ -86,9 +85,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                                    name='conv4_3')(net['conv4_2'])
     net['pool4'] = MaxPooling2D((2, 2), strides=(2, 2), border_mode='same',
                                 name='pool4')(net['conv4_3'])
-   
- 
-	# ============= Block 5 =============
+
+    # ============= Block 5 =============
     net['conv5_1'] = Convolution2D(512, 3, 3,
                                    activation='relu',
                                    border_mode='same',
@@ -103,16 +101,16 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                                    name='conv5_3')(net['conv5_2'])
     net['pool5'] = MaxPooling2D((3, 3), strides=(1, 1), border_mode='same',
                                 name='pool5')(net['conv5_3'])
-    
-	# ============= FC6=============
+
+    # ============= FC6=============
     net['fc6'] = AtrousConvolution2D(1024, 3, 3, atrous_rate=(6, 6),
                                      activation='relu', border_mode='same',
                                      name='fc6')(net['pool5'])
-   
+
     # ============= FC7 =============
     net['fc7'] = Convolution2D(1024, 1, 1, activation='relu',
                                border_mode='same', name='fc7')(net['fc6'])
-    
+
     # ============= Block 6 =============
     net['conv6_1'] = Convolution2D(256, 1, 1, activation='relu',
                                    border_mode='same',
@@ -120,8 +118,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
     net['conv6_2'] = Convolution2D(512, 3, 3, subsample=(2, 2),
                                    activation='relu', border_mode='same',
                                    name='conv6_2')(net['conv6_1'])
-    
-	# ============= Block 7 =============
+
+    # ============= Block 7 =============
     net['conv7_1'] = Convolution2D(128, 1, 1, activation='relu',
                                    border_mode='same',
                                    name='conv7_1')(net['conv6_2'])
@@ -136,11 +134,11 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
     net['conv8_2'] = Convolution2D(256, 3, 3, subsample=(2, 2),
                                    activation='relu', border_mode='same',
                                    name='conv8_2')(net['conv8_1'])
-    
-	# ============= Last Pool =============
+
+    # ============= Last Pool =============
     net['pool6'] = GlobalAveragePooling2D(name='pool6')(net['conv8_2'])
-    
-	# ============= Prediction from conv4_3
+
+    # ============= Prediction from conv4_3
     net['conv4_3_norm'] = Normalize(20, name='conv4_3_norm')(net['conv4_3'])
     num_priors = 3
     x = Convolution2D(num_priors * 4, 3, 3, border_mode='same',
@@ -160,8 +158,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                         variances=[0.1, 0.1, 0.2, 0.2],
                         name='conv4_3_norm_mbox_priorbox')
     net['conv4_3_norm_mbox_priorbox'] = priorbox(net['conv4_3_norm'])
-    
-	# ============= Prediction from fc7
+
+    # ============= Prediction from fc7
     num_priors = 6
     net['fc7_mbox_loc'] = Convolution2D(num_priors * 4, 3, 3,
                                         border_mode='same',
@@ -180,8 +178,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                         variances=[0.1, 0.1, 0.2, 0.2],
                         name='fc7_mbox_priorbox')
     net['fc7_mbox_priorbox'] = priorbox(net['fc7'])
-    
-	# ============= Prediction from conv6_2
+
+    # ============= Prediction from conv6_2
     num_priors = 6
     x = Convolution2D(num_priors * 4, 3, 3, border_mode='same',
                       name='conv6_2_mbox_loc')(net['conv6_2'])
@@ -200,8 +198,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                         variances=[0.1, 0.1, 0.2, 0.2],
                         name='conv6_2_mbox_priorbox')
     net['conv6_2_mbox_priorbox'] = priorbox(net['conv6_2'])
-    
-	# ============= Prediction from conv7_2
+
+    # ============= Prediction from conv7_2
     num_priors = 6
     x = Convolution2D(num_priors * 4, 3, 3, border_mode='same',
                       name='conv7_2_mbox_loc')(net['conv7_2'])
@@ -220,8 +218,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                         variances=[0.1, 0.1, 0.2, 0.2],
                         name='conv7_2_mbox_priorbox')
     net['conv7_2_mbox_priorbox'] = priorbox(net['conv7_2'])
-   
-   # ============= Prediction from conv8_2
+
+    # ============= Prediction from conv8_2
     num_priors = 6
     x = Convolution2D(num_priors * 4, 3, 3, border_mode='same',
                       name='conv8_2_mbox_loc')(net['conv8_2'])
@@ -240,7 +238,7 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
                         variances=[0.1, 0.1, 0.2, 0.2],
                         name='conv8_2_mbox_priorbox')
     net['conv8_2_mbox_priorbox'] = priorbox(net['conv8_2'])
-  
+
     # ============= Prediction from pool6
     num_priors = 6
     x = Dense(num_priors * 4, name='pool6_mbox_loc_flat')(net['pool6'])
@@ -260,8 +258,8 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
     net['pool6_reshaped'] = Reshape(target_shape,
                                     name='pool6_reshaped')(net['pool6'])
     net['pool6_mbox_priorbox'] = priorbox(net['pool6_reshaped'])
-    
-	# ============= Gather all predictions
+
+    # ============= Gather all predictions
     net['mbox_loc'] = merge([net['conv4_3_norm_mbox_loc_flat'],
                              net['fc7_mbox_loc_flat'],
                              net['conv6_2_mbox_loc_flat'],
@@ -295,20 +293,18 @@ def build_ssd(input_shape, num_classes=21, freeze_layers_from=None):
     net['mbox_conf'] = Activation('softmax',
                                   name='mbox_conf_final')(net['mbox_conf'])
     net['predictions'] = merge([net['mbox_loc'],
-                               net['mbox_conf'],
-                               net['mbox_priorbox']],
+                                net['mbox_conf'],
+                                net['mbox_priorbox']],
                                mode='concat', concat_axis=2,
                                name='predictions')
     model = Model(net['input'], net['predictions'])
 
     # ============= Freeze some layers
     if freeze_layers_from is not None:
-        print('   Freezing layers from' + freeze_layers_from )
+        print('   Freezing layers from' + freeze_layers_from)
         for layer in model.layers:
             if layer == freeze_layers_from:
                 break
             layer.trainable = False
-
-
 
     return model
