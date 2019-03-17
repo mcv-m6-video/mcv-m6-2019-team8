@@ -6,7 +6,7 @@ Team 8
 
 ## Video Surveillance for Road Traffic Monitoring
 
-### Team 2
+### Team 8
 Name, email, github
 - Ana Caballero, ana.caballeroc@e-campus.uab.cat, Ana.Caballero89
 - Arnau Vallvé, arnau.vallve@e-campus.uab.cat,ArnauVallve94
