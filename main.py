@@ -18,9 +18,9 @@ from Classes.Frame import Frame
 
 # Seriously, we should add some relative paths or path file
 if os.name == 'nt':
-    path = 'E:/DATA_Projects/M6/Week1/Data/AICity_data/AICity_data/train/S03/c010/vdo.avi'
-    path_gt = 'E:/DATA_Projects/M6/Week1/Data/AICity_data/AICity_data/train/S03/c010/gt/gt.txt'
-    path_det = 'E:/DATA_Projects/M6/Week1/Data/AICity_data/AICity_data/train/S03/c010/det/det_ssd512.txt'
+    path = 'E:/DATA_Projects/M6Project/data_challange/AICity_data/AICity_data/train/S03/c010/vdo.avi'
+    path_gt = 'E:/DATA_Projects/M6Project/data_challange/AICity_data/AICity_data/train/S03/c010/gt/gt.txt'
+    path_det = 'E:/DATA_Projects/M6Project/data_challange/AICity_data/AICity_data/train/S03/c010/det/det_ssd512.txt'
 else:
     path = '/home/marcinmalak/Desktop/M6 Video Analysis/AICity_data/AICity_data/train/S03/c010/vdo.avi'
     path_gt = '/home/marcinmalak/Desktop/M6 Video Analysis/AICity_data/AICity_data/train/S03/c010/gt/gt.txt'
@@ -70,9 +70,9 @@ framelist = []
 ioulistAddn = []
 framelistAddn = []
 
-yolo_classes = '/home/marcinmalak/Desktop/m6-group8/mcv-m6-2019-team8/M6/yolov3.txt'
-yolo_weights = '/home/marcinmalak/Desktop/m6-group8/mcv-m6-2019-team8/M6/yolov3.weights'
-yolo_config = '/home/marcinmalak/Desktop/m6-group8/mcv-m6-2019-team8/M6/yolov3.cfg'
+yolo_classes = 'E:/DATA_Projects/M6Project/mcv-m6-2019-team8/M6/yolov3.txt'
+yolo_weights = 'E:/DATA_Projects/M6Project/mcv-m6-2019-team8/M6/yolov3.weights'
+yolo_config = 'E:/DATA_Projects/M6Project/mcv-m6-2019-team8/M6/yolov3.cfg'
 imgs_path = './M6/detections/'
 
 
