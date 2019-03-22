@@ -11,7 +11,7 @@ Name, email, github
 - Ana Caballero, ana.caballeroc@e-campus.uab.cat, Ana.Caballero89
 - Arnau Vallvé, arnau.vallve@e-campus.uab.cat,ArnauVallve94
 - Marcin Malak, marcinpiotr.malak@e-campus.uab.cat, KazuK7
-- Wiktor Jaworski, @e-campus.uab.cat, wjaworsky
+- Wiktor Jaworski, wiktormicha.jaworski@e-campus.uab.cat, wjaworsky
 
 ###  Project Goal
 To learn the basic concepts and techniques related to video sequences mainly for surveillance applications and can be applied to any problem in order to obtain accurate automatic results.
