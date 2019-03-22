@@ -8,6 +8,7 @@ class BoundingBox:
         :param width: bounding box width
         :param height: bounding box height
         """
+        self.id = id
         self.top = top
         self.left = left
         self.width = width

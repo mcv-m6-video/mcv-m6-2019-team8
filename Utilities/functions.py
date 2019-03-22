@@ -124,3 +124,4 @@ def remove_image(path, img_name):
     if os.path.exists(path + str(int(img_name)) + '.png') is False:
         # file did not exists
         return True
+

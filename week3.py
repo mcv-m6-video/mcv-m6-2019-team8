@@ -1,7 +1,11 @@
+import glob
+
 import cv2
 import numpy as np
+
+from Classes.BoundingBox import BoundingBox
+from Classes.Frame import Frame
 from PATHS import AICITY_ROOT, YOLO_ROOT
-import glob
 
 # Paths and constants setup
 path = AICITY_ROOT + "vdo.avi"
@@ -10,13 +14,21 @@ yolo_classes = YOLO_ROOT + 'yolov3.txt'
 yolo_weights = YOLO_ROOT + 'yolov3.weights'
 yolo_config = YOLO_ROOT + 'yolov3.cfg'
 imgs_path = './M6/detections/'
-BEGIN_FRAME = 218
+BEGIN_FRAME = 230
+
 
 # Yolo functions
 def get_output_layers(net):
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
     return output_layers
+
+
+def draw_bbox(img, id, x, y, x_plus_w, y_plus_h):
+    label = str(id)
+    color = [255, 0, 0]
+    cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
+    cv2.putText(img, label, (x - 5, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 4)
 
 
 def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
@@ -36,8 +48,11 @@ net = cv2.dnn.readNet(yolo_weights, yolo_config)
 conf_threshold = 0.5
 nms_threshold = 0.4
 
-frames = glob.glob(path_frames)
-for frame in frames[BEGIN_FRAME:]:
+frames = []
+
+framepath = glob.glob(path_frames)
+for frame in framepath[BEGIN_FRAME:]:
+    cFrame = Frame()
     image = cv2.imread(frame)
     Width = image.shape[1]
     Height = image.shape[0]
@@ -66,7 +81,7 @@ for frame in frames[BEGIN_FRAME:]:
                 confidences.append(float(confidence))
                 boxes.append([x, y, w, h])
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
-    for i in indices:
+    for key, i in enumerate(indices):
         i = i[0]
         box = boxes[i]
         x = box[0]
@@ -74,6 +89,22 @@ for frame in frames[BEGIN_FRAME:]:
         w = box[2]
         h = box[3]
         draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))
+        bbox = BoundingBox(x, y, w, h)
+        # cFrame.addDetection(key, bbox)
+        cFrame.addDetection(key, bbox)
+
+    frames.append(cFrame)
+    idx = frames.index(cFrame)
+    if idx != 0:
+        frames[idx].track(frames[idx - 1])
+
+    for idx, detection in cFrame.det.items():
+        x = detection.top
+        y = detection.left
+        width = detection.width
+        height = detection.height
+        id = idx
+        draw_bbox(image, id, int(x), int(y), int(x + width), int(y + height))
 
     # TODO: Tracking here, add to CFrame class detections the box ;)
 
