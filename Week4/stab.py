@@ -20,7 +20,7 @@ fps = 1
 fourcc = cv2.VideoWriter_fourcc(*'MJPG')
  
 # Set up output video
-out = cv2.VideoWriter('video_out.mp4', fourcc, fps, (w, h))
+out = cv2.VideoWriter('Video_stabilised.mp4', fourcc, fps, (w, h))
 
 # === Step 2: Read the first frame and convert it to grayscale
 
@@ -167,7 +167,7 @@ for i in range(n_frames-2):
   # Apply affine wrapping to the given frame
   frame_stabilized = cv2.warpAffine(frame, m, (w,h))
  
-  # Fix border artifacts
+  # Fix border artifacts   --> coment this line to see the black border thing
   frame_stabilized = fixBorder(frame_stabilized) 
  
   # Write the frame to the file
