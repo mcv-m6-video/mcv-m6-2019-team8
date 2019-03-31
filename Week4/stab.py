@@ -106,6 +106,7 @@ def movingAverage(curve, radius):
 
 def smooth(trajectory): 
   smoothed_trajectory = np.copy(trajectory) 
+  SMOOTHING_RADIUS = 3
   # Filter the x, y and angle curves
   for i in range(3):
     smoothed_trajectory[:,i] = movingAverage(trajectory[:,i], radius=SMOOTHING_RADIUS)
@@ -114,6 +115,9 @@ def smooth(trajectory):
 
 # Compute trajectory using cumulative sum of transformations
 trajectory = np.cumsum(transforms, axis=0) 
+
+# Smooth trajectory using moving average filter
+smoothed_trajectory = smooth(trajectory); 
 
 # ==> Step 4.3 : Calculate smooth transforms
 
@@ -124,6 +128,17 @@ difference = smoothed_trajectory - trajectory
 transforms_smooth = transforms + difference
 
 # === Step 5: Apply smoothed camera motion to frames
+
+#  ==> Step 5.1 : Fix border artifacts
+
+def fixBorder(frame):
+  s = frame.shape
+  # Scale the image 4% without moving the center
+  T = cv2.getRotationMatrix2D((s[1]/2, s[0]/2), 0, 1.04)
+  frame = cv2.warpAffine(frame, T, (s[1], s[0]))
+  return frame
+
+# === setp5: 
 
 # Reset stream to first frame 
 cap.set(cv2.CAP_PROP_POS_FRAMES, 0) 
@@ -160,17 +175,10 @@ for i in range(n_frames-2):
  
   # If the image is too big, resize it.
   if(frame_out.shape[1] < 1920): 
-    frame_out = cv2.resize(frame_out, (frame_out.shape[1]/2, frame_out.shape[0]/2));
+    frame_out = cv2.resize(frame_out, (round(frame_out.shape[1]/2), round(frame_out.shape[0]/2)));
    
   cv2.imshow("Before and After", frame_out)
   cv2.waitKey(10)
   out.write(frame_out)
 
-#  ==> Step 5.1 : Fix border artifacts
 
-def fixBorder(frame):
-  s = frame.shape
-  # Scale the image 4% without moving the center
-  T = cv2.getRotationMatrix2D((s[1]/2, s[0]/2), 0, 1.04)
-  frame = cv2.warpAffine(frame, T, (s[1], s[0]))
-  return frame
