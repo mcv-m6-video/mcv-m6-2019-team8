@@ -5,6 +5,9 @@
 # Import numpy and OpenCV
 import numpy as np
 import cv2
+import os, numpy, PIL, cv2
+from PIL import Image
+from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
  
 # Read input video
 cap = cv2.VideoCapture('Video_non-stabilised.mp4');
@@ -15,12 +18,18 @@ n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 # Get width and height of video stream
 w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) 
 h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-fps = 1 
+
 # Define the codec for output video
-fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+#fourcc = cv2.VideoWriter_fourcc(*'MJPG')
  
 # Set up output video
-out = cv2.VideoWriter('Video_stabilised.mp4', fourcc, fps, (w, h))
+#out = cv2.VideoWriter('Video_stabilised.mp4', fourcc, fps, (w, h))
+
+isColor = 1
+fps     = 25
+frameW  = 1920
+frameH  = 1080
+out = cv2.VideoWriter("video2.avi",-1, fps, (frameW,frameH),isColor)
 
 # === Step 2: Read the first frame and convert it to grayscale
 
@@ -179,6 +188,33 @@ for i in range(n_frames-2):
    
   cv2.imshow("Before and After", frame_out)
   cv2.waitKey(10)
-  out.write(frame_out)
+  #out.write(frame_out)
 
+#out.release()
+def make_video():
+        outimg=None
+        fps=2
+        size=None
+        is_color=True
+        format="XVID"
+        outvid='Video_stabilised.avi'
+
+        fourcc = VideoWriter_fourcc(*format)
+        vid = None
+        nFrames = 129
+
+        for x in range(1, nFrames):
+            img = cv2.imread("frame" + str(x-1)+".png")
+
+            if vid is None:
+                if size is None:
+                    size = img.shape[1], img.shape[0]
+                vid = VideoWriter(outvid, fourcc, float(fps), size, is_color)
+            if size[0] != img.shape[1] and size[1] != img.shape[0]:
+                img = resize(img, size)
+            vid.write(img)
+        vid.release()
+        return vid
+
+make_video()
 
