@@ -37,6 +37,8 @@ Target = zeros(18,22);
 firstTime = true;
 
 reset(hVideoSource);
+video = VideoWriter('video_stabilized_dynamic_search.avi');
+open(video);
 while ~isDone(hVideoSource)
     input = step(hVideoSource);
 
@@ -78,7 +80,8 @@ while ~isDone(hVideoSource)
                     'TextColor', 'white', 'BoxOpacity', 0);
     % Display video
     hVideoOut([input(:,:,1) Stabilized]);
+    writeVideo(video,Stabilized);
 end
-
+close(video);
 
 release(hVideoSource);
