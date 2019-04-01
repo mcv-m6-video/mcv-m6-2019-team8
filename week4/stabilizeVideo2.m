@@ -1,7 +1,8 @@
 % https://es.mathworks.com/help/vision/examples/video-stabilization.html [Dynamic search w/ Matlab]
 
 % Input video file which needs to be stabilized.
-filename = 'Video_non-stabilised.mp4';
+clear all; close all;
+filename = 'Video_non-stabilised.mkv';
 
 hVideoSource = vision.VideoFileReader(filename, ...
                                       'ImageColorSpace', 'Intensity',...

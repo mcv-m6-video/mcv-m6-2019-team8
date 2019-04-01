@@ -1,7 +1,8 @@
 % https://es.mathworks.com/help/vision/examples/video-stabilization-using-point-feature-matching.html
 
 %% Step 1. Read Frames from a Movie File
-filename = 'Video_non-stabilised.mp4';
+clear all; close all;
+filename = 'Video_non-stabilised.mkv';
 hVideoSrc = vision.VideoFileReader(filename, 'ImageColorSpace', 'Intensity');
 
 imgA = step(hVideoSrc); % Read first frame into imgA
