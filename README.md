@@ -25,11 +25,18 @@ The project is divided into 5 weeks and, this year, is based on The NVIDIA AI CI
 - Evaluation metrics
 - [Slides Week 1](https://docs.google.com/presentation/d/1QqUpTQ17ai2_8i-_77kf4A69zO-8pxEvA6Q4RdeT06o/edit#slide=id.p) 
 
+<div align="center">
+  <img src="https://github.com/mcv-m6-video/mcv-m6-2019-team8/blob/master/week1/imgWeek1.PNG">
+</div>
 
 ### Week 2
 - Background estimation
 - Stauffer & Grimson
 - [Slides Week 2](https://docs.google.com/presentation/d/1YcZWX69NVLLItkt1Y1R9L2ztg6i9ycPz6nSiEDatVws/edit)
+
+<div align="center">
+  <img src="https://github.com/mcv-m6-video/mcv-m6-2019-team8/blob/master/week2/imgWeek2.PNG">
+</div>
 
 ### Week 3
 - Segmentation
@@ -37,10 +44,18 @@ The project is divided into 5 weeks and, this year, is based on The NVIDIA AI CI
 - Tracking
 - [Slides Week 3](https://docs.google.com/presentation/d/1VnUszuydOZ6Ep9bWKlPd911d-CRs6RhJaZIb5d8auv4/edit)
 
+<div align="center">
+  <img src="https://github.com/mcv-m6-video/mcv-m6-2019-team8/blob/master/week3/imgWeek3.PNG">
+</div>
+
 ### Week 4
 - Optical Flow
 - Tracking
 - [Slides Week 4](https://docs.google.com/presentation/d/16n99UauwVxce0t2xAHwBlb8BFVRFUW1_1sApJWLZc4A/edit)
+
+<div align="center">
+  <img src="https://github.com/mcv-m6-video/mcv-m6-2019-team8/blob/master/week4/imgWeek4.PNG">
+</div>
 
 ### Week 5
 - Multiple cameras
