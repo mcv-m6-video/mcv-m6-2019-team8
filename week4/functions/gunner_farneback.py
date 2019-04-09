@@ -21,12 +21,12 @@ def evaluate_gunner_farneback(names):
     heigh = GUN_opt_flow.shape[0]
     width = GUN_opt_flow.shape[1]
     best_opt_flow = np.concatenate((GUN_opt_flow, np.ones((heigh, width, 1))), axis=2)
-    best_mmse, best_pepn = task1(gt, best_opt_flow, prvs.shape[0], prvs.shape[1])
+    best_mmse, best_pepn = compute(gt, best_opt_flow, prvs.shape[0], prvs.shape[1])
 
     return best_mmse, best_pepn
 
 
-def task1(gt, test, offset_y, offset_x):
+def compute(gt, test, offset_y, offset_x):
     gtx = (np.array(gt[:, :, 1], dtype=float) - (2 ** 15)) / 64.0
     gty = (np.array(gt[:, :, 2], dtype=float) - (2 ** 15)) / 64.0
     gtz = np.array(gt[:, :, 0], dtype=bool)
@@ -76,69 +76,3 @@ def task1(gt, test, offset_y, offset_x):
     print("PEPN (non-ocluded): " + str(pepn) + "\n")
 
     return m_msen, pepn
-
-# def evaluate_custom(seq, dataset, names):
-#     area_offsets = np.arange(8, 8 * 6 + 1, 8)
-#     block_dims = np.arange(20, 10 * 6 + 1, 10)
-#
-#     gt = cv2.imread(names[0], -1)
-#     prvs = cv2.imread(names[1], 0)
-#     curr = cv2.imread(names[2], 0)
-#     block_list_p, block_list_m = [], []
-#     combinations = len(block_dims) * len(area_offsets)
-#
-#     for i, block in enumerate(block_dims):
-#         list_m, list_p = [], []
-#         for j, offset in enumerate(area_offsets):
-#             print("Computing " + str((i * (len(area_offsets)) + (j + 1))) + "/" + str(combinations))
-#             opt_flow = block_matching(curr, prvs, block, block, offset, offset)
-#             m_msen, pepn = task1(gt, opt_flow, offset, offset)
-#             list_m.append(m_msen)
-#             list_p.append(pepn)
-#         block_list_m.append(list_m)
-#         block_list_p.append(list_p)
-#
-#     # Plot 2x mean square error vs areas offsets
-#     plotlines(block_list_m, area_offsets, block_dims, "MMSE", seq, dataset)
-#
-#     # Plot percentage of erroneous pixels in non-occluded vs areas offsets
-#     plotlines(block_list_p, area_offsets, block_dims, "PEPN", seq, dataset)
-#
-#     # Find best mmse
-#     best_mmse = best_evaluation(block_list_m, "minimum")
-#
-#     # Find best pepn
-#     best_pepn = best_evaluation(block_list_p, "minimum")
-#
-#     return best_mmse, best_pepn
-#
-#
-# def best_evaluation(evaluations, criteria):
-#     best = evaluations[0][0]
-#     for listeval in evaluations:
-#         for value in listeval:
-#             if criteria[:3] == "max":
-#                 if best < value:
-#                     best = value
-#             elif criteria[:3] == "min":
-#                 if best > value:
-#                     best = value
-#
-#     return best
-#
-#
-# def plotlines(list_values, area_offsets, blocks, title, seq, dataset):
-#     plt.figure()
-#     lines = []
-#     colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
-#     for idx, lv, block in zip(range(len(blocks)), list_values, blocks):
-#         line, = plt.plot(area_offsets, lv, colors[idx], label=' = block dimension: ' + str(block))
-#         lines.append(line)
-#     plt.title(title + " " + seq + " sequence")
-#     plt.xlabel("Area of search")
-#     plt.ylabel(title)
-#     plt.legend(handles=lines, loc='upper center', bbox_to_anchor=(0.5, -0.1))
-#     plt.savefig(RESULT_DIR + dataset + '_sequence' + seq + "_" + title + '.png', bbox_inches='tight')
-#     plt.close()
-#
-#     return

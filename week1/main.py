@@ -34,6 +34,14 @@ cap.set(cv2.CAP_PROP_POS_FRAMES, BEGIN_FRAME)
 
 frames = []
 
+<<<<<<< HEAD
+# # Init arrays for plots
+ioulist = []
+framelist = []
+ioulistAddn = []
+framelistAddn = []
+=======
+>>>>>>> 2aab64a3a31d08b2c86ad819d617c25d7dad0d48
 # TASK 1 #
 
 # Displaying groundtruth with detection metrics
@@ -57,6 +65,26 @@ while cap.isOpened():
     if cv2.waitKey(10) & 0xFF == ord('q'):
         break
 
+<<<<<<< HEAD
+    # Task 2, Adnotated frames
+
+    if currentFrame > 218 and currentFrame < 247:
+        if gt.get(currentFrame, None) and det.get(currentFrame, None):
+            cFrame = Frame(currentFrame, gt[currentFrame], det[currentFrame])
+            groundtruth = cFrame.groundtruth()
+            if isinstance(groundtruth, list):
+                for bbox in groundtruth:
+                    cv2.rectangle(frame, bbox.topleft(), bbox.bottomright(), (0, 255, 0), 3)
+                    # result = cFrame.to_result(0.5)
+            elif isinstance(groundtruth, BoundingBox):
+                cv2.rectangle(frame, groundtruth.topleft(), groundtruth.bottomright(), (0, 255, 0), 3)
+
+    cv2.imshow('image', frame)
+    if cv2.waitKey(10) & 0xFF == ord('q'):
+        break
+
+=======
+>>>>>>> 2aab64a3a31d08b2c86ad819d617c25d7dad0d48
 # Task3 #
 
 # Optical flow evaluation metrics
@@ -71,6 +99,29 @@ dist45 = (np.asarray(oP_calculations(flowResultFrame45, flowGroundTruthFrame45, 
 dist157 = (np.asarray(oP_calculations(flowResultFrame157, flowGroundTruthFrame157, 157)[2])).reshape(
     (flowResultFrame157.shape[0], flowResultFrame157.shape[1]))
 
+<<<<<<< HEAD
+# Plot for IoU over frame
+fig = plt.figure("IoU Plot")
+plt.title('IoU(frame)')
+plt.xlabel('Video frame')
+plt.ylabel('IoU Value')
+plt.plot(framelistAddn, ioulistAddn)
+plt.show()
+
+# # Plot for F1 score per frame
+# fig = plt.figure("F1 Plot")
+# plt.title('F1(frame)')
+# plt.xlabel('Video frame')
+# plt.ylabel('F1 Measure')
+# plt.plot(frameVals, F1Vals)
+# plt.show()
+
+plt.show()
+cap.release()
+cv2.destroyAllWindows()
+
+=======
+>>>>>>> 2aab64a3a31d08b2c86ad819d617c25d7dad0d48
 # Plotting #
 dist45 = np.ma.masked_where(dist45 == 0, dist45)
 cmap = plt.cm.plasma

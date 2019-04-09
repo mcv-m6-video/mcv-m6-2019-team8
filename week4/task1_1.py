@@ -15,7 +15,12 @@ frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 sequence.append(frame)
 F_gt = flow_read(os.path.join(PATH_OPTICAL_FLOW_GT, nsequence + '_10.png'))
 
+<<<<<<< HEAD
+flow = block_matching(sequence[0], sequence[1], block_size=(4, 4),
+                      step=(8, 8), area=(4, 4), area_step=(8, 8),
+=======
 flow = block_matching(sequence[0], sequence[1], block_size=(24, 24), step=(8, 8), area=(24, 24), area_step=(8, 8),
+>>>>>>> 2aab64a3a31d08b2c86ad819d617c25d7dad0d48
                       error_thresh=3, verbose=True)
 flow_error(F_gt, flow)
 rgb_flow = flow_visualization(flow[:, :, 0], flow[:, :, 1], 0)

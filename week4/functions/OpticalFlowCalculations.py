@@ -30,9 +30,6 @@ def readOF(ofPath):
     return images
 
 
-# ----------------------------TEST-----------------------------------------------------#
-
-
 def mse(array1, array2):
     return np.mean(np.power(array1.astype(np.float32) - array2.astype(np.float32), 2))
 
@@ -41,15 +38,11 @@ def sse(array1, array2):
     return np.sum(np.power(array1.astype(np.float32) - array2.astype(np.float32), 2))
 
 
-def reorder_towards_center(vector, center):
-    npvector = np.array(vector)
-    distances = np.abs(npvector - center)
-    return npvector[np.argsort(distances)]
+"""Based on the previous year challenge"""
 
 
 def block_matching(im1, im2, block_size=(3, 3), step=(1, 1), area=(2 * 3 + 3, 2 * 3 + 3), area_step=(1, 1),
                    error_func=mse, error_thresh=1, verbose=False):
-    debug = False
     if im1.shape != im2.shape:
         print('ERROR: Image shapes are not the same!')
         exit(-1)
@@ -82,12 +75,6 @@ def block_matching(im1, im2, block_size=(3, 3), step=(1, 1), area=(2 * 3 + 3, 2 
         for j in np.arange(padding[1], cols + padding[1], step=step[1]):
             block1 = im1[int(i) - int(halfs_block[0]):int(i) + int(halfs_block[0]) + int(odd_block[0]),
                      int(j) - int(halfs_block[1]):int(j) + int(halfs_block[1]) + int(odd_block[1]), :]
-            # Invalid dimension for image
-            # if debug:
-            #     f1 = plt.figure()
-            #     plt.imshow(block1)
-            #     plt.title('block1 in ({},{})'.format(i, j))
-            #     plt.show()
 
             area_range = ((i - halfs_area[0] if i - halfs_area[0] > padding[0] else padding[0],
                            i + halfs_area[0] + odd_area[0] if i + halfs_area[0] + odd_area[0] < rows + padding[0] \
@@ -95,19 +82,6 @@ def block_matching(im1, im2, block_size=(3, 3), step=(1, 1), area=(2 * 3 + 3, 2 
                           (j - halfs_area[1] if j - halfs_area[1] > padding[1] else padding[1],
                            j + halfs_area[1] + odd_area[1] if j + halfs_area[1] + odd_area[1] < cols + padding[1] \
                                else cols + padding[1]))
-
-            # Invalid dimension for image
-            # if debug:
-            #     f, ax = plt.subplots()
-            #     ax.imshow(im1, alpha=.5)
-            #     ax.imshow(im2, alpha=.5)
-            #     ax.add_patch(patches.Rectangle((area_range[1][0] - .5, area_range[0][0] - .5),
-            #                                    area_range[1][1] - area_range[1][0],
-            #                                    area_range[0][1] - area_range[0][0],
-            #                                    linewidth=1,
-            #                                    edgecolor='w',
-            #                                    facecolor='none'))
-            #     plt.show()
 
             block2 = im2[int(i) - int(halfs_block[0]):int(i) + int(halfs_block[0]) + int(odd_block[0]),
                      int(j) - int(halfs_block[1]):int(j) + int(halfs_block[1]) + int(odd_block[1]), :]
@@ -119,10 +93,10 @@ def block_matching(im1, im2, block_size=(3, 3), step=(1, 1), area=(2 * 3 + 3, 2 
             # IM2's double loop
             k_vector = np.arange(area_range[0][0],
                                  area_range[0][1], step=area_step[
-                    0])  # reorder_towards_center(np.arange(area_range[0][0], area_range[0][1],step=area_step[0]),i)
+                    0])
             l_vector = np.arange(area_range[1][0],
                                  area_range[1][1], step=area_step[
-                    1])  # reorder_towards_center(np.arange(area_range[1][0], area_range[1][1],step=area_step[1],j)
+                    1])
             for k in k_vector:
                 for l in l_vector:
                     if k == i and j == l:
@@ -131,30 +105,14 @@ def block_matching(im1, im2, block_size=(3, 3), step=(1, 1), area=(2 * 3 + 3, 2 
                     block2 = im1[int(k) - int(halfs_block[0]):int(k) + int(halfs_block[0]) + int(odd_block[0]),
                              int(l) - int(halfs_block[1]):int(l) + int(halfs_block[1]) + int(odd_block[1]), :]
                     # Invalid dimension for image
-                    if debug:
-                        f2 = plt.figure()
-                        plt.imshow(block2)
-                        plt.title('block2 in ({},{})'.format(k, l))
-                        plt.show()
-                    if debug:
-                        f12 = plt.figure()
-                        plt.imshow(block1, alpha=.5)
-                        plt.imshow(block2, alpha=.5)
-                        plt.title('block1 in ({},{}) block2 in ({},{})'.format(i, j, k, l))
-                        plt.show()
 
                     cur_error = error_func(block1, block2)
-                    if debug:
-                        print('cur_error: {}'.format(cur_error))
-                        plt.close(f2)
-                        plt.close(f12)
+
                     if cur_error < min_error:
                         min_error = cur_error
                         move = (k - i, l - j)
                     if cur_error > max_error:
                         max_error = cur_error
-            if debug:
-                plt.close(f1)
             if np.abs(min_error - no_flow_error) < error_thresh:
                 move = (0, 0)
             result[result_i:result_i + step[0], result_j:result_j + step[1], 0] = move[0]
