@@ -23,28 +23,28 @@ The project is divided into 5 weeks and, this year, is based on The NVIDIA AI CI
 ## Week 1
 - Introduction DB
 - Evaluation metrics
-https://docs.google.com/presentation/d/1QqUpTQ17ai2_8i-_77kf4A69zO-8pxEvA6Q4RdeT06o/edit#slide=id.p
+- [Slides Week 1] (https://docs.google.com/presentation/d/1QqUpTQ17ai2_8i-_77kf4A69zO-8pxEvA6Q4RdeT06o/edit#slide=id.p)
 
 ### Week 2
 - Background estimation
 - Stauffer & Grimson
-https://docs.google.com/presentation/d/1YcZWX69NVLLItkt1Y1R9L2ztg6i9ycPz6nSiEDatVws/edit
+- [Slides Week 2] (https://docs.google.com/presentation/d/1YcZWX69NVLLItkt1Y1R9L2ztg6i9ycPz6nSiEDatVws/edit)
 
 ### Week 3
 - Segmentation
 - Object Detection
 - Tracking
-https://docs.google.com/presentation/d/1VnUszuydOZ6Ep9bWKlPd911d-CRs6RhJaZIb5d8auv4/edit
+- [Slides Week 3] (https://docs.google.com/presentation/d/1VnUszuydOZ6Ep9bWKlPd911d-CRs6RhJaZIb5d8auv4/edit)
 
 ### Week 4
 - Optical Flow
 - Tracking
-https://docs.google.com/presentation/d/16n99UauwVxce0t2xAHwBlb8BFVRFUW1_1sApJWLZc4A/edit
+- [Slides Week 4] (https://docs.google.com/presentation/d/16n99UauwVxce0t2xAHwBlb8BFVRFUW1_1sApJWLZc4A/edit)
 
 ### Week 5
 - Multiple cameras
 - Speed
-https://docs.google.com/presentation/d/1KKxJNzPyEG6kwUT2Btdp53FqrZyecdhszeUKBU5seS8/edit?usp=sharing
+- [Slides Week 5] (https://docs.google.com/presentation/d/1KKxJNzPyEG6kwUT2Btdp53FqrZyecdhszeUKBU5seS8/edit?usp=sharing)
 
 ### Week 6
 - Presentation workshop
