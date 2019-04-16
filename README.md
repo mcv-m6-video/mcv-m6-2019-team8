@@ -64,4 +64,5 @@ The project is divided into 5 weeks and, this year, is based on The NVIDIA AI CI
 ### Week 6
 - Presentation workshop
 
+- [Technical Report](https://github.com/mcv-m6-video/mcv-m6-2019-team8/blob/master/REPORT/M6_2019_Video_Analysis_____NEW____%20(1).pdf)
 
